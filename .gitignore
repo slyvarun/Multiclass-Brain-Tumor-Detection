@@ -1,0 +1,12 @@
+# datasets
+Dataset/
+test images/
+
+# generated model artifacts
+model/*.npy
+model/*.pkl
+*.pkl
+*.npy
+
+# notebook checkpoints
+.ipynb_checkpoints/
