@@ -3,8 +3,7 @@ Dataset/
 test images/
 
 # generated model artifacts
-model/*.npy
-model/*.pkl
+model/
 *.pkl
 *.npy
 
