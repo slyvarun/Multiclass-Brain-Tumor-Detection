@@ -1,44 +1,45 @@
-# Multiclass-Brain-Tumor-Detection
-**(Machine Learning Vision Project)**
+# 3D Volumetric Brain Tumor Segmentation (BraTS 2020)
 
-This project implements a computer vision pipeline to classify brain tumor MRI images into multiple tumor categories using classical machine learning algorithms such as SVM and Random Forest.
+An end-to-end deep learning pipeline for multi-modal 3D medical image segmentation using a custom 3D U-Net architecture built with TensorFlow/Keras and trained on the BraTS 2020 dataset.
 
-The system performs image preprocessing, feature extraction, model training, evaluation, and prediction on new MRI images.
+---
 
-**Project Overview**
+## 🧠 Project Overview
 
-The goal of this project is to build an automated system that can classify MRI brain images into tumor classes.
-The pipeline includes:
+Accurate localization and segmentation of gliomas from multi-modal MRI scans are critical for surgical planning and radiation therapy. This repository provides a complete implementation for volumetric brain tumor segmentation, processing multi-channel MRI volumes to predict precise tumor sub-regions.
 
-- Image loading from dataset folders
+* **Domain:** Medical Imaging, Biomedical Engineering, Computer Vision
+* **Dataset:** MICCAI BraTS 2020 (Brain Tumor Segmentation)
+* **Framework:** TensorFlow / Keras 3 (`tf.keras`)
 
-- Image resizing and preprocessing
+---
 
-- Feature extraction (flattened pixel vectors)
+## 🛠️ Tech Stack & Dependencies
 
-- Model training (SVM & Random Forest)
+* **Language:** Python
+* **Deep Learning:** TensorFlow, Keras
+* **Medical Imaging I/O:** `nibabel` (NIfTI format handling)
+* **Image Processing & Math:** NumPy, SciPy, Scikit-image (`skimage` for Marching Cubes 3D surface extraction)
+* **Visualization:** Matplotlib, Ipywidgets (for interactive diagnostic dashboards)
 
-- Model evaluation using classification metrics
+---
 
-- Model saving/loading
+## 📐 Model Architecture & Pipeline
 
-- Prediction on new MRI images
+1. **Multi-Modal Data Fusion:** Ingests 4 distinct MRI modalities per patient volume stacked into a 4D tensor:
+   * **T1** (Native structural imaging)
+   * **T1c** (Contrast-enhanced T1, highlighting active tumor boundaries)
+   * **T2** (Pathology and edema characterization)
+   * **FLAIR** (Fluid-attenuated inversion recovery, highlighting peritumoral edema)
+2. **Preprocessing & Standardization:** Z-score normalization applied per-slice to handle scanner intensity variations, coupled with spatial cropping to a uniform $128 \times 128 \times 128$ volumetric grid.
+3. **3D U-Net Architecture:** Features a symmetric encoder-decoder path with 3D Convolutional blocks (`Conv3D`), Batch Normalization, ReLU activations, Max Pooling, Dropout for regularization, and 3D Transpose Convolutions with skip-connections.
+4. **Loss Function:** Optimized directly using the **Sorensen-Dice Loss** to mitigate severe background-to-tumor class imbalance.
 
-This project demonstrates an end-to-end vision ML workflow from raw images to deployment-ready prediction.
+---
 
-**Technologies Used**
+## 🚀 Quick Start & Usage
 
-Python
-OpenCV | scikit-learn | NumPy | Matplotlib  | Seaborn | scikit-image | joblib
-
-**Future Improvements**
-
-- Use CNN/Deep Learning models (ResNet, VGG)
-
-- Add data augmentation
-
-- Improve accuracy with feature extraction
-
-- Deploy as web app using Streamlit/Flask
-
-- Convert to real-time diagnostic tool
+### 1. Environment Setup
+Ensure you have the required dependencies installed in your Python environment (preferably running inside a GPU-accelerated runtime like Kaggle or Google Colab):
+```bash
+pip install tensorflow nibabel numpy matplotlib scikit-image ipywidgets
